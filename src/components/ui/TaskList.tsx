@@ -12,6 +12,8 @@ export interface Task {
 interface TaskListProps {
   tasks: Task[];
   onTaskToggle?: (taskId: string) => void;
+  onTaskEdit?: (task: Task) => void;
+  onTaskDelete?: (taskId: string) => void;
 }
 
 export const TaskList: React.FC<TaskListProps> = ({ tasks, onTaskToggle }) => {

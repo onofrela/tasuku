@@ -1,4 +1,4 @@
-
+// src/App.tsx
 import './App.css';
 import { AppRouter } from './components/app/AppRouter';
 import { InicioSection } from './components/app/InicioSection';
@@ -12,7 +12,9 @@ const routes = [
 ];
 
 function App() {
-  return <AppRouter routes={routes} />;
+  return (
+    <AppRouter routes={routes} />
+  );
 }
 
 export default App;
