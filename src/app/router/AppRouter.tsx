@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { SidebarMenu } from '../ui/SidebarMenu';
-import { SidebarUser } from '../ui/SidebarUser';
-import { HamburgerButton } from '../ui/HamburgerButton';
+import { SidebarMenu } from '../layout/SidebarMenu';
+import { SidebarUser } from '../layout/SidebarUser';
+import { HamburgerButton } from '../layout/HamburgerButton';
 
 interface Route {
   id: string;

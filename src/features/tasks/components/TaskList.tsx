@@ -1,13 +1,6 @@
 import React from 'react';
 import { TaskItem } from './TaskItem';
-
-export interface Task {
-  id: string;
-  title: string;
-  completed: boolean;
-  dueDate: Date;
-  tag?: string;
-}
+import type { Task } from '../types/task';
 
 interface TaskListProps {
   tasks: Task[];

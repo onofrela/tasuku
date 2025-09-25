@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Container } from '../ui/Container';
-import { Typography } from '../ui/Typography';
-import { Button } from '../ui/Button';
-import { Modal } from '../ui/Modal';
-import { Input } from '../ui/Input';
-import { useTags } from '../../lib/hooks/useTags';
-import { TagList } from '../ui/TagList';
+import { Container } from '../../../shared/ui/core/Container';
+import { Typography } from '../../../shared/ui/core/Typography';
+import { Button } from '../../../shared/ui/core/Button';
+import { Modal } from '../../../shared/ui/core/Modal';
+import { Input } from '../../../shared/ui/core/Input';
+import { useTags } from '../hooks/useTags';
+import { TagList } from './TagList';
 
 export const TagsSection: React.FC = () => {
   const { tags, loading, error, createTag, deleteTag, refreshTags } = useTags();

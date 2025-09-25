@@ -1,6 +1,6 @@
 // src/components/ui/DateInput.tsx
 import React from 'react';
-import { CalendarIcon } from './icons';
+import { CalendarIcon } from '../icons';
 
 interface DateInputProps {
   label: string;

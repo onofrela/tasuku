@@ -1,10 +1,10 @@
 // src/App.tsx
 import './App.css';
-import { AppRouter } from './components/app/AppRouter';
-import { InicioSection } from './components/app/InicioSection';
-import { TagsSection } from './components/app/TagsSection';
-import { TasksSection } from './components/app/TasksSection';
-import { HomeIcon, TasksIcon, TagsIcon } from './components/ui/icons';
+import { AppRouter } from '../router/AppRouter';
+import { InicioSection } from '../../features/dashboard/components/InicioSection';
+import { TagsSection } from '../../features/tags/components/TagsSection';
+import { TasksSection } from '../../features/tasks/components/TasksSection';
+import { HomeIcon, TasksIcon, TagsIcon } from '../../shared/ui/icons';
 
 const routes = [
   { 

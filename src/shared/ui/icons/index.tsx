@@ -1,6 +1,6 @@
 // src/components/ui/icons/index.tsx
 import React from 'react';
-import { Icon } from '../Icon';
+import { Icon } from '../core/Icon';
 
 // Íconos de Navegación
 export const HomeIcon = (props: Partial<React.ComponentProps<typeof Icon>>) => (

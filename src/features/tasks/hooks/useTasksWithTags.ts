@@ -1,7 +1,7 @@
 // src/lib/hooks/useTasksWithTags.ts
 import { useCallback } from 'react';
 import { useTasks } from './useTasks';
-import { useTags } from './useTags';
+import { useTags } from '../../tags/hooks/useTags';
 import { taskToMockFormat } from '../utils/taskUtils';
 
 export const useTasksWithTags = (options: any = {}) => {

@@ -1,5 +1,5 @@
 // src/lib/utils/taskUtils.ts
-import type { Task } from '../database/core/types';
+import type { Task } from '../../../lib/database/core/types';
 
 export const taskToMockFormat = (task: Task, tagName?: string) => ({
   id: task.id,

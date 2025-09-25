@@ -1,12 +1,13 @@
 // src/components/app/TasksSection.tsx
 import React, { useState } from 'react';
-import { Container } from '../ui/Container';
-import { Typography } from '../ui/Typography';
-import { TaskList, type Task } from '../ui/TaskList';
-import { Button } from '../ui/Button';
-import { TaskModal } from '../ui/TaskModal';
-import { useTasksWithTags } from '../../lib/hooks/useTasksWithTags';
-import { PlusIcon, EditIcon, DeleteIcon, ClockIcon } from '../ui/icons';
+import { Container } from '../../../shared/ui/core/Container';
+import { Typography } from '../../../shared/ui/core/Typography';
+import { Button } from '../../../shared/ui/core/Button';
+import { useTasksWithTags } from '../hooks/useTasksWithTags';
+import { PlusIcon } from '../../../shared/ui/icons';
+import type { Task } from '../types/task';
+import { TaskList } from './TaskList';
+import { TaskModal } from './TaskModal';
 
 export const TasksSection: React.FC = () => {
   const { 

@@ -1,11 +1,12 @@
 import React from 'react';
-import { Container } from '../ui/Container';
-import { Typography } from '../ui/Typography';
-import { Grid } from '../ui/Grid';
-import { Card } from '../ui/Card';
-import { Button } from '../ui/Button';
-import { TaskList, type Task } from '../ui/TaskList';
-import { TagList } from '../ui/TagList';
+import { Container } from '../../../shared/ui/core/Container';
+import { Typography } from '../../../shared/ui/core/Typography';
+import { Grid } from '../../../shared/ui/core/Grid';
+import { Card } from '../../../shared/ui/core/Card';
+import { Button } from '../../../shared/ui/core/Button';
+import { TaskList } from '../../tasks/components/TaskList';
+import { TagList } from '../../tags/components/TagList';
+import type { Task } from '../../tasks/types/task';
 
 // Datos de ejemplo para el dashboard
 const mockTasks: Task[] = [

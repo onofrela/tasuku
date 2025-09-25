@@ -1,7 +1,7 @@
 // src/lib/hooks/useTasks.ts
 import { useState, useEffect, useCallback } from 'react';
-import type { Task } from '../database/core/types';
-import { database } from '../database';
+import type { Task } from '../../../shared/lib/database/core/types';
+import { database } from '../../../shared/lib/database';
 
 export interface UseTasksOptions {
   filter?: 'all' | 'pending' | 'completed' | 'overdue';

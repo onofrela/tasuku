@@ -1,7 +1,7 @@
 // src/lib/hooks/useTags.ts
 import { useState, useEffect, useCallback } from 'react';
-import type { Tag } from '../database/core/types';
-import { database } from '../database';
+import type { Tag } from '../../../shared/lib/database/core/types';
+import { database } from '../../../shared/lib/database';
 
 export const useTags = () => {
   const [tags, setTags] = useState<Tag[]>([]);

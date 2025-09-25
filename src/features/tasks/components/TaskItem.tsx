@@ -1,6 +1,6 @@
 import React from 'react';
-import type { Task } from './TaskList';
-import { ClockIcon, DeleteIcon, EditIcon } from './icons';
+import { ClockIcon, DeleteIcon, EditIcon } from '../../../shared/ui/icons';
+import type { Task } from '../types/task';
 
 interface TaskItemProps {
   id: string;

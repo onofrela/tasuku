@@ -1,10 +1,10 @@
 // src/components/ui/TaskModal.tsx
 import React, { useState, useEffect } from 'react';
-import { Modal } from './Modal';
-import { Input } from './Input';
-import { Button } from './Button';
-import { Typography } from './Typography';
-import { DateInput } from './DateInput';
+import { Modal } from '../../../shared/ui/core/Modal';
+import { Input } from '../../../shared/ui/core/Input';
+import { Button } from '../../../shared/ui/core/Button';
+import { Typography } from '../../../shared/ui/core/Typography';
+import { DateInput } from '../../../shared/ui/forms/DateInput';
 
 interface TaskModalProps {
   isOpen: boolean;
