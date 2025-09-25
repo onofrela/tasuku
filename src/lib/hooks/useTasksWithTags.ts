@@ -16,16 +16,9 @@ export const useTasksWithTags = (options: any = {}) => {
     });
   }, [tasks, tags]);
 
-  // Buscar tagId por nombre (para compatibilidad)
-  const findTagIdByName = useCallback((tagName: string) => {
-    const tag = tags.find(t => t.name === tagName);
-    return tag?.id;
-  }, [tags]);
-
   return {
     tasks: getTasksWithTagNames(),
-    tags,
-    ...taskMethods,
-    findTagIdByName
+    tags, // ¡Ahora sí se pasan los tags!
+    ...taskMethods
   };
 };

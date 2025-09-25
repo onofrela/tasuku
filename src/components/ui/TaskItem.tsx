@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Task } from './TaskList';
+import { ClockIcon, DeleteIcon, EditIcon } from './icons';
 
 interface TaskItemProps {
   id: string;
@@ -8,9 +9,11 @@ interface TaskItemProps {
   dueDate: Date;
   tag?: string;
   onToggle?: (id: string) => void;
+  onEdit?: (task: Task) => void;
+  onDelete?: (id: string) => void;
 }
 
-export const TaskItem: React.FC<TaskItemProps & { onEdit?: (task: Task) => void; onDelete?: (taskId: string) => void }> = ({
+export const TaskItem: React.FC<TaskItemProps> = ({
   id,
   title,
   completed,
@@ -20,16 +23,23 @@ export const TaskItem: React.FC<TaskItemProps & { onEdit?: (task: Task) => void;
   onEdit,
   onDelete
 }) => {
-  const isToday = dueDate.toDateString() === new Date().toDateString();
-  const isTomorrow = dueDate.toDateString() === new Date(Date.now() + 86400000).toDateString();
+  const isToday = dueDate && dueDate.toDateString() === new Date().toDateString();
+  const isTomorrow = dueDate && dueDate.toDateString() === new Date(Date.now() + 86400000).toDateString();
   
   // Formatear fecha según responsive
   const formatDate = () => {
+    if (!dueDate) return 'Sin fecha';
+    
     if (isToday) {
-      return dueDate.toLocaleTimeString('es-ES', { 
-        hour: '2-digit', 
-        minute: '2-digit' 
-      });
+      // Si es hoy, mostrar hora si tiene hora específica
+      const hasSpecificTime = dueDate.getHours() !== 23 || dueDate.getMinutes() !== 59;
+      if (hasSpecificTime) {
+        return dueDate.toLocaleTimeString('es-ES', { 
+          hour: '2-digit', 
+          minute: '2-digit' 
+        });
+      }
+      return 'Hoy';
     }
     
     if (isTomorrow) {
@@ -43,15 +53,17 @@ export const TaskItem: React.FC<TaskItemProps & { onEdit?: (task: Task) => void;
     });
   };
 
-  // Formato completo para tooltip o pantallas grandes
-  const fullDate = dueDate.toLocaleDateString('es-ES', {
+  // Formato completo para tooltip
+  const fullDate = dueDate ? dueDate.toLocaleDateString('es-ES', {
     weekday: 'long',
     year: 'numeric',
     month: 'long',
     day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  });
+    ...(dueDate.getHours() !== 23 || dueDate.getMinutes() !== 59 ? {
+      hour: '2-digit',
+      minute: '2-digit'
+    } : {})
+  }) : 'Sin fecha límite';
 
   return (
     <div 
@@ -111,11 +123,7 @@ export const TaskItem: React.FC<TaskItemProps & { onEdit?: (task: Task) => void;
             className="text-sm text-foreground-muted flex items-center gap-1"
             title={fullDate}
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <span className="hidden sm:inline">{fullDate.split(',')[0]}, </span>
+            <ClockIcon size="sm" />
             <span>{formatDate()}</span>
           </span>
 
@@ -134,9 +142,10 @@ export const TaskItem: React.FC<TaskItemProps & { onEdit?: (task: Task) => void;
             className="p-2 text-foreground-muted hover:text-foreground transition-colors"
             title="Editar tarea"
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-            </svg>
+            <EditIcon 
+              size="sm" 
+              className="text-foreground-muted hover:text-foreground"
+            />
           </button>
         )}
         {onDelete && (
@@ -145,9 +154,10 @@ export const TaskItem: React.FC<TaskItemProps & { onEdit?: (task: Task) => void;
             className="p-2 text-foreground-muted hover:text-red-500 transition-colors"
             title="Eliminar tarea"
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-            </svg>
+            <DeleteIcon 
+              size="sm"
+              className="text-foreground-muted hover:text-red-500"
+            />
           </button>
         )}
       </div>

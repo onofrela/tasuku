@@ -1,3 +1,4 @@
+// src/components/app/SidebarMenu.tsx
 import React from 'react';
 
 interface MenuItem {
@@ -24,7 +25,9 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({ items, selected, onSel
               : 'text-foreground-muted hover:bg-surface hover:text-foreground hover:border-border-hover'
           }`}
         >
-          <span className="text-lg flex-shrink-0">{item.icon}</span>
+          <span className="flex-shrink-0" style={{ width: '20px', height: '20px' }}>
+            {item.icon}
+          </span>
           <span className="truncate">{item.label}</span>
         </button>
       </li>

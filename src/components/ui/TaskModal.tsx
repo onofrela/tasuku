@@ -4,6 +4,7 @@ import { Modal } from './Modal';
 import { Input } from './Input';
 import { Button } from './Button';
 import { Typography } from './Typography';
+import { DateInput } from './DateInput';
 
 interface TaskModalProps {
   isOpen: boolean;
@@ -27,6 +28,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({
     description: '',
     dueDate: '',
     dueTime: '',
+    hasTime: false,
     tagId: '',
     priority: 'medium' as 'low' | 'medium' | 'high'
   });
@@ -36,12 +38,15 @@ export const TaskModal: React.FC<TaskModalProps> = ({
   useEffect(() => {
     if (isOpen) {
       if (mode === 'edit' && initialData) {
-        const dueDate = new Date(initialData.dueDate);
+        const dueDate = initialData.dueDate ? new Date(initialData.dueDate) : null;
+        const hasTime = dueDate && dueDate.getHours() !== 0 && dueDate.getMinutes() !== 0;
+        
         setFormData({
           title: initialData.title,
           description: initialData.description || '',
-          dueDate: dueDate.toISOString().split('T')[0],
-          dueTime: dueDate.toTimeString().slice(0, 5),
+          dueDate: dueDate ? dueDate.toISOString().split('T')[0] : '',
+          dueTime: hasTime ? dueDate.toTimeString().slice(0, 5) : '12:00',
+          hasTime: !!hasTime,
           tagId: initialData.tagId || '',
           priority: initialData.priority || 'medium'
         });
@@ -50,8 +55,9 @@ export const TaskModal: React.FC<TaskModalProps> = ({
         setFormData({
           title: '',
           description: '',
-          dueDate: new Date().toISOString().split('T')[0],
+          dueDate: '',
           dueTime: '12:00',
+          hasTime: false,
           tagId: '',
           priority: 'medium'
         });
@@ -71,12 +77,21 @@ export const TaskModal: React.FC<TaskModalProps> = ({
 
     setIsSubmitting(true);
     try {
-      const dueDateTime = new Date(`${formData.dueDate}T${formData.dueTime}`);
-      
+      let dueDate: Date | undefined;
+
+      if (formData.dueDate) {
+        if (formData.hasTime) {
+          dueDate = new Date(`${formData.dueDate}T${formData.dueTime}`);
+        } else {
+          // Si no tiene hora, establecer para fin del día
+          dueDate = new Date(`${formData.dueDate}T23:59:59`);
+        }
+      }
+
       await onSubmit({
         title: formData.title.trim(),
         description: formData.description.trim(),
-        dueDate: dueDateTime,
+        dueDate: dueDate,
         tagId: formData.tagId || undefined,
         priority: formData.priority,
         completed: mode === 'edit' ? initialData?.completed : false
@@ -112,7 +127,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({
         )}
 
         <Input
-          label="Título de la tarea"
+          label="Título de la tarea *"
           value={formData.title}
           onChange={(value) => setFormData(prev => ({ ...prev, title: value }))}
           placeholder="Ej: Revisar documentación"
@@ -132,32 +147,46 @@ export const TaskModal: React.FC<TaskModalProps> = ({
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        {/* Fecha y Hora */}
+        <div className="space-y-3">
           <div>
             <label className="block text-sm font-medium text-foreground mb-2">
-              Fecha de vencimiento
+              Fecha de vencimiento (opcional)
             </label>
-            <input
-              type="date"
+            <DateInput
+              label="Fecha de vencimiento (opcional)"
               value={formData.dueDate}
-              onChange={(e) => setFormData(prev => ({ ...prev, dueDate: e.target.value }))}
-              className="w-full px-3 py-2 rounded-lg border border-border bg-background text-foreground focus:border-border-active focus:ring-2 focus:ring-border-active transition-all duration-200"
-              required
+              onChange={(value) => setFormData(prev => ({ ...prev, dueDate: value }))}
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-foreground mb-2">
-              Hora
-            </label>
-            <input
-              type="time"
-              value={formData.dueTime}
-              onChange={(e) => setFormData(prev => ({ ...prev, dueTime: e.target.value }))}
-              className="w-full px-3 py-2 rounded-lg border border-border bg-background text-foreground focus:border-border-active focus:ring-2 focus:ring-border-active transition-all duration-200"
-              required
-            />
-          </div>
+          {formData.dueDate && (
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="hasTime"
+                  checked={formData.hasTime}
+                  onChange={(e) => setFormData(prev => ({ ...prev, hasTime: e.target.checked }))}
+                  className="rounded border-border text-foreground focus:ring-border-active"
+                />
+                <label htmlFor="hasTime" className="text-sm text-foreground">
+                  Especificar hora
+                </label>
+              </div>
+              
+              {formData.hasTime && (
+                <div className="flex-1">
+                  <input
+                    type="time"
+                    value={formData.dueTime}
+                    onChange={(e) => setFormData(prev => ({ ...prev, dueTime: e.target.value }))}
+                    className="w-full px-3 py-2 rounded-lg border border-border bg-background text-foreground focus:border-border-active focus:ring-2 focus:ring-border-active transition-all duration-200"
+                  />
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         <div className="grid grid-cols-2 gap-4">

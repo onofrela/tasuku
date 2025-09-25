@@ -46,7 +46,13 @@ export const useTasks = (options: UseTasksOptions = {}) => {
       }
 
       // Ordenar por fecha de vencimiento (las más próximas primero)
-      tasks.sort((a, b) => a.dueDate.getTime() - b.dueDate.getTime());
+      // Las tareas sin dueDate van al final
+      tasks.sort((a, b) => {
+        if (!a.dueDate && !b.dueDate) return 0;
+        if (!a.dueDate) return 1;
+        if (!b.dueDate) return -1;
+        return a.dueDate.getTime() - b.dueDate.getTime();
+      });
       
       setTasks(tasks);
       setError(null);
